@@ -14,6 +14,11 @@ import android.widget.TextView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 public class MainChatActivity extends AppCompatActivity {
 
@@ -66,8 +71,12 @@ public class MainChatActivity extends AppCompatActivity {
         Log.d("FlashChat", "I send something");
         // TODO: Grab the text the user typed in and push the message to Firebase
         String input = mInputText.getText().toString();
+
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd  HH:mm", Locale.TRADITIONAL_CHINESE);
+        String date = df.format(new Date(System.currentTimeMillis()));
+
         if (!input.isEmpty()) {
-            InstantMessage chat = new InstantMessage(input, mDisplayName);
+            InstantMessage chat = new InstantMessage(input, mDisplayName, date);
             mDatabaseReference.child("messages").push().setValue(chat);
             mInputText.setText("");
         }

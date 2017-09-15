@@ -1,26 +1,28 @@
 package com.johntyty912.flashchatnewfirebase;
 
-/**
- * Created by lamlam009 on 2017/9/15.
- */
-
-public class InstantMessage {
+class InstantMessage {
     private String message;
     private String author;
+    private String date;
 
-    public InstantMessage(String message, String author) {
+    InstantMessage(String message, String author, String date) {
         this.message = message;
         this.author = author;
+        this.date = date;
     }
 
     public InstantMessage() {
     }
 
-    public String getMessage() {
+    String getMessage() {
         return message;
     }
 
-    public String getAuthor() {
+    String getAuthor() {
         return author;
+    }
+
+    String getDate() {
+        return date;
     }
 }

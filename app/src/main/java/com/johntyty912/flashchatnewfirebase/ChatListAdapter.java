@@ -18,11 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
-/**
- * Created by lamlam009 on 2017/9/15.
- */
-
-public class ChatListAdapter extends BaseAdapter {
+class ChatListAdapter extends BaseAdapter {
 
     private Activity mActivity;
     private DatabaseReference mDatabaseReference;
@@ -57,7 +53,7 @@ public class ChatListAdapter extends BaseAdapter {
         }
     };
 
-    public ChatListAdapter(Activity activity, DatabaseReference ref, String name) {
+    ChatListAdapter(Activity activity, DatabaseReference ref, String name) {
         mActivity = activity;
         mDatabaseReference = ref.child("messages");
         mDisplayName = name;
@@ -66,8 +62,8 @@ public class ChatListAdapter extends BaseAdapter {
         mSnapshotList = new ArrayList<>();
     }
 
-    static class ViewHolder {
-        TextView authorName, body;
+    private static class ViewHolder {
+        TextView authorName, body, datetime;
         LinearLayout.LayoutParams params;
     }
 
@@ -95,6 +91,7 @@ public class ChatListAdapter extends BaseAdapter {
             final ViewHolder holder = new ViewHolder();
             holder.authorName = (TextView) convertView.findViewById(R.id.author);
             holder.body = (TextView) convertView.findViewById(R.id.message);
+            holder.datetime = (TextView) convertView.findViewById(R.id.date);
             holder.params = (LinearLayout.LayoutParams) holder.authorName.getLayoutParams();
             convertView.setTag(holder);
         }
@@ -107,8 +104,10 @@ public class ChatListAdapter extends BaseAdapter {
 
         String author = message.getAuthor();
         String msg = message.getMessage();
+        String date = message.getDate();
         holder.authorName.setText(author);
         holder.body.setText(msg);
+        holder.datetime.setText(date);
 
         return convertView;
     }
@@ -126,9 +125,10 @@ public class ChatListAdapter extends BaseAdapter {
 
         holder.authorName.setLayoutParams(holder.params);
         holder.body.setLayoutParams(holder.params);
+        holder.datetime.setLayoutParams(holder.params);
     }
 
-    public void cleanup() {
+    void cleanup() {
         mDatabaseReference.removeEventListener(mListener);
     }
 }
