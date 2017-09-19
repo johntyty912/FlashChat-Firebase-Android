@@ -2,6 +2,7 @@ package com.johntyty912.flashchatnewfirebase;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final String LOGIN_PREFS = "LoginPrefs";
+    public static final String EMAIL_KEY = "email";
+    public static final String PASSWORD_KEY = "password";
     // TODO: Add member variables here:
     FirebaseAuth mAuth;
     // UI references.
@@ -35,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.login_email);
         mPasswordView = (EditText) findViewById(R.id.login_password);
-
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -66,8 +69,8 @@ public class LoginActivity extends AppCompatActivity {
 
     // TODO: Complete the attemptLogin() method
     private void attemptLogin() {
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        final String email = mEmailView.getText().toString();
+        final String password = mPasswordView.getText().toString();
 
         if (email.isEmpty() || password.isEmpty()) return;
         Toast.makeText(this, "Login in progress...", Toast.LENGTH_SHORT).show();
@@ -80,13 +83,14 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("FlashChat", "Problem signing in: "+ task.getException());
                     showErrorDialog("There was a problem signing in");
                 } else {
+                    SharedPreferences prefs = getSharedPreferences(LOGIN_PREFS, 0);
+                    prefs.edit().putString(EMAIL_KEY, email).putString(PASSWORD_KEY, password).apply();
                     Intent intent = new Intent(LoginActivity.this, MainChatActivity.class);
                     finish();
                     startActivity(intent);
                 }
             }
         });
-
 
     }
 

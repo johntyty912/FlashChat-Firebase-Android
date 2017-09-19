@@ -148,6 +148,12 @@ public class RegisterActivity extends AppCompatActivity {
         String displayName = mUsernameView.getText().toString();
         SharedPreferences prefs = getSharedPreferences(CHAT_PREFS, 0);
         prefs.edit().putString(DISPLAY_NAME_KEY, displayName).apply();
+
+//        FirebaseUser user = mAuth.getCurrentUser();
+//        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+//                .setDisplayName(displayName)
+//                .build();
+//        user.updateProfile(profileUpdates);
     }
 
     // TODO: Create an alert dialog to show in case registration failed
